@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Portfolio Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Stock Portfolio Tracker</h1>
+
+        <div class="add-stock">
+            <form action="/add" method="POST">
+                <input type="text" name="symbol" placeholder="Enter Stock Symbol (e.g., AAPL)" required>
+                <button type="submit">Add Stock</button>
+            </form>
+        </div>
+
+        <h2>Your Portfolio</h2>
+        <div class="portfolio">
+            {% if portfolio %}
+                {% for symbol, stock in portfolio.items() %}
+                    <div class="stock-item">
+                        <h3>{{ stock.symbol }}</h3>
+                        <p>Price: ${{ stock.price }}</p>
+                        <p>Last Updated: {{ stock.time }}</p>
+                        <a href="/remove/{{ stock.symbol }}">Remove</a>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No stocks in your portfolio.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
